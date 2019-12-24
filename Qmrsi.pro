@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 RC_ICONS = Qmrsi.ico
 QT       +=  printsupport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -32,7 +33,15 @@ SOURCES += \
     qlineeditip.cpp \
     utils.cpp \
     Desktop.cpp \
-    MeasDesktop.cpp
+    MeasDesktop.cpp \
+    TcpClient.cpp \
+    UdpServer.cpp \
+    Comman.cpp \
+    MeasSwitch.cpp \
+    Measure.cpp \
+    RXFFM.cpp \
+    DataThread.cpp \
+    RXPSCAN.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +49,16 @@ HEADERS += \
     qlineeditip.h \
     utils.h \
     Desktop.h \
-    MeasDesktop.h
+    MeasDesktop.h \
+    TcpClient.h \
+    UdpServer.h \
+    Comman.h \
+    MeasSwitch.h \
+    datadef.h \
+    Measure.h \
+    RXFFM.h \
+    DataThread.h \
+    RXPSCAN.h
 
 FORMS += \
         mainwindow.ui \
@@ -57,3 +75,5 @@ DISTFILES +=
 
 RESOURCES += \
     res.qrc
+
+LIBS += -lWs2_32

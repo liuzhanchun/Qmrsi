@@ -15,6 +15,9 @@ public:
     explicit CMeasDesktop(QWidget *parent = nullptr);
     ~CMeasDesktop();
 
+private slots:
+    void btn_ModeClick();
+
 private:
     Ui::CMeasDesktop *ui;
 };

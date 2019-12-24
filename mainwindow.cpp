@@ -6,6 +6,10 @@
 #include <QCheckBox>
 #include "utils.h"
 #include "MeasDesktop.h"
+#include "TcpClient.h"
+#include "DataThread.h"
+#include "MeasSwitch.h"
+#include "UdpServer.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -33,9 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     CreateToolBar();
     // 创建状态栏
      SetStatusBar("Unconnected Network");
+
     // 显示Desktop
     m_pDesktopWindow->showMaximized();
-
 }
 
 MainWindow::~MainWindow()
@@ -44,8 +48,8 @@ MainWindow::~MainWindow()
 }
 void MainWindow::InitWindowObj()
 {
-    m_pDesktop = NULL;
-    m_pDesktopWindow = NULL;
+    m_pDesktop = nullptr;
+    m_pDesktopWindow = nullptr;
 }
 /**
  * @brief MainWindow::CreateSubWindow
@@ -69,7 +73,7 @@ QMdiSubWindow *MainWindow::CreateSubWindow(QWidget *pWidget)
  */
 void MainWindow::CreateDesktopWindow()
 {
-    if ( (m_pDesktopWindow == NULL) && (m_pDesktop == NULL) ) {
+    if ( (m_pDesktopWindow == nullptr) && (m_pDesktop == nullptr) ) {
         m_pDesktop = new CDesktop;
         m_pDesktopWindow = CreateSubWindow(m_pDesktop);          //CreateSubWindow   创建子窗口
     }
@@ -144,9 +148,11 @@ void MainWindow::CreateMenusBar()
     pMenuNet->addAction(pActionConnect);
     connect(pActionConnect, SIGNAL(triggered()), this, SLOT(NetConnect()));
     pMenuNet->addSeparator();
+
+    //pActionConnect ->setEnabled(false);
     QAction* pActionDisconnect = new QAction("&Disconnect", this);
     pMenuNet->addAction(pActionDisconnect);
-    connect(pActionConnect, SIGNAL(triggered()), this, SLOT(NetDisconnect()));
+    connect(pActionDisconnect, SIGNAL(triggered()), this, SLOT(NetDisconnect()));
     menuBar()->addMenu(pMenuNet);
     //插件
     QMenu* pMenuUnit = new QMenu("&插件");
@@ -185,6 +191,36 @@ void MainWindow::NetConnect()
     if(dialog.GetIPInfo(nPort,receiveip,controlip)=="OK")
          SetStatusBar("Connected Network");
 
+
+    g_pTcpClient = new CTcpClient();
+    g_pTcpClient ->TcpInit(5025,"192.168.0.226");
+    g_pTcpClient->SendCmd(SYSTEM_ECHO_ON);
+    Sleep(50);
+    if(g_bIsRun == true)
+    {
+        //connect(g_pTcpClient,SIGNAL(msg_para()),this,SLOT(On_UI_UpdateParameters()));
+
+        g_MeasSwitch.EnterLock();
+        g_MeasSwitch.SwitchMeas(RXFFM);      /////RXFFM
+        g_MeasSwitch.LeaveLock();
+
+        g_pUdpData = new CUdpServer(6025);
+
+        CDataThread *data=new CDataThread;
+        data->start();
+
+    }
+    else
+    {
+        delete g_pTcpClient;
+        if(g_pTcpClient!=nullptr)
+        {
+            g_pTcpClient = nullptr;
+        }
+
+    }
+
+
 }
 void MainWindow::NetDisconnect()
 {
@@ -200,7 +236,6 @@ void MainWindow::OnActDesktop()
     measdesktop ->show();
     measdesktop->move(this->geometry().x()+44,this->geometry().y()+90);
     //this->hide();
-
 }
 
 

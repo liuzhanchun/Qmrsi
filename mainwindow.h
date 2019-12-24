@@ -53,6 +53,11 @@ private:
 
     QToolBar*  m_pStatusToolBar;
 
+    /********** 菜单栏*************/
+    // 文件
+    QMenu* pMenuFile;
+
+
 };
 
 #endif // MAINWINDOW_H
