@@ -7,6 +7,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+   // w.ShowWindow(SW_MAXIMIZE); ModifyStyle(WS_MAXIMIZEBOX,0);
+    w.setWindowFlags(w.windowFlags());
     w.show();
    // CNetWork connect;
     //connect.show();

@@ -17,8 +17,8 @@ TEMPLATE = app
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
-
+#DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += WRCHARTING_STATICLIB
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -41,7 +41,8 @@ SOURCES += \
     Measure.cpp \
     RXFFM.cpp \
     DataThread.cpp \
-    RXPSCAN.cpp
+    RXPSCAN.cpp \
+    SpectroThread.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -58,7 +59,9 @@ HEADERS += \
     Measure.h \
     RXFFM.h \
     DataThread.h \
-    RXPSCAN.h
+    RXPSCAN.h \
+    SpectroThread.h \
+    SpecParams.h
 
 FORMS += \
         mainwindow.ui \
@@ -77,3 +80,13 @@ RESOURCES += \
     res.qrc
 
 LIBS += -lWs2_32
+
+CONFIG(release, debug|release){
+    LIBS += -L$$PWD/lib/WRCharting -lWRCharting
+}
+CONFIG(debug, debug|release){
+    LIBS += -L$$PWD/lib/WRCharting -lWRChartingd
+}
+
+INCLUDEPATH += $$PWD/include
+DEPENDPATH += $$PWD/include

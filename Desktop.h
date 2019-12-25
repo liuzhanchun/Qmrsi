@@ -2,10 +2,12 @@
 #define DESKTOP_H
 
 #include <QWidget>
+#include "SpectroThread.h"
 
 namespace Ui {
 class CDesktop;
 }
+class CSpectroThread;
 
 class CDesktop : public QWidget
 {
@@ -17,6 +19,8 @@ public:
 
 private:
     Ui::CDesktop *ui;
+    WRSpectroControl* chart;
+    CSpectroThread* thread;
 };
 
 #endif // DESKTOP_H

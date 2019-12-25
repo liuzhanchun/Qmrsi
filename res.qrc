@@ -168,5 +168,6 @@
         <file>images/desktop/mode/PSCAN.png</file>
         <file>images/desktop/mode/PscanMult.png</file>
         <file>images/desktop/mode/TDOA.png</file>
+        <file>spec.dat</file>
     </qresource>
 </RCC>

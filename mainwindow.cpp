@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     // ui->setupUi(this);
-    setMinimumSize(1200, 800);
+    setMinimumSize(1550, 1020);
     this->setStyleSheet(Utils::getQssContent(":/qss/default.qss"));
     m_pMdiArea = new QMdiArea;
     m_pMdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
